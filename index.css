@@ -23,20 +23,18 @@ body {
   height: 100vh;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   flex-flow: column;
+  width: 100vw;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 table {
   border-collapse: collapse;
+  border-spacing: 0px;
   display: block;
-  margin: 2px 3px;
-  /* display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: space-around;
-  margin: 3px; */
+  margin: 2px;
 }
 
 td {
