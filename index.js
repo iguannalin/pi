@@ -1,9 +1,7 @@
 window.addEventListener("load", () => {
   const grid = document.getElementById("grid");
-  let init = true;
-  let db = 1000;
-  let number = 3.140592653839794;
-  let index = 0;
+  let db = 0;
+  let index = 3;
 
   function display(n) {
     const td = document.createElement("td");
@@ -12,21 +10,33 @@ window.addEventListener("load", () => {
   }
 
   function initGrid() {
-    init = false;
-    const pi = number.toString();
-    pi.split("").forEach((num) => display(num));
-    index = pi.length-1;
+    fetch(`https://seasons986.pythonanywhere.com/pi`).then((r) => r.json()).then((i) => {
+      if (i) index = i;
+      fetch(`https://api.pi.delivery/v1/pi?start=0&numberOfDigits=${index}&radix=10`).then((f) => f.json()).then((r) => {
+        if (!r || !r.content) return;
+        const pi = r.content;
+        pi.split("").forEach((num, _) => {
+          if (_ == 1) display(".");
+          display(num);
+        });
+        return index = pi.length-1;
+      }).then(() => {
+        getSomePi();
+      });
+    })
+    
   }
 
   function getSomePi() {
-    fetch("https://seasons986.pythonanywhere.com/pi").then((f) => f.json()).then((r) => {
-      number = r;
-      if (init) initGrid();
-      if (number) display(number.toString().substring(index, index+=1));
+    fetch(`https://api.pi.delivery/v1/pi?start=${index}&numberOfDigits=1&radix=10`).then((f) => f.json()).then((r) => {
+      number = r.content;
+      index += 1;
+      if (number) display(number);
+      fetch(`https://seasons986.pythonanywhere.com/pi?update=${index}`);
     }).then(() => {
       setTimeout(getSomePi, db+=1000);
     });
   }
 
-  getSomePi();
+  initGrid();
 });
