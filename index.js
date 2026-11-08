@@ -10,7 +10,7 @@ window.addEventListener("load", () => {
   }
 
   function initGrid() {
-    fetch(`https://seasons986.pythonanywhere.com/pi`).then((r) => r.json()).then((i) => {
+    fetch(`https://annaylin-100-days-api.netlify.app/pi`).then((r) => r.json()).then((i) => {
       if (i) index = i;
       fetch(`https://api.pi.delivery/v1/pi?start=0&numberOfDigits=${index}&radix=10`).then((f) => f.json()).then((r) => {
         if (!r || !r.content) return;
@@ -32,7 +32,7 @@ window.addEventListener("load", () => {
       number = r.content;
       index += 1;
       if (number) display(number);
-      fetch(`https://seasons986.pythonanywhere.com/pi?update=${index}`);
+      fetch(`https://annaylin-100-days-api.netlify.app/pi?update=${index}`);
     }).then(() => {
       setTimeout(getSomePi, db+=1000);
     });
